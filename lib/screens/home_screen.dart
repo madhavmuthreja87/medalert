@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 18),
+              SizedBox(height: 17),
               Column(
                 children: [
                   Container(
@@ -115,8 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   Container(
-                    height: MediaQuery.sizeOf(context).height / 2.3,
+                    height: MediaQuery.sizeOf(context).height / 2.4,
                     child: ListView.builder(
                       itemCount: medicines.length,
                       itemBuilder: (context, index) {

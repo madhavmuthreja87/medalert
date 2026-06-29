@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:medalert/providers/medicine_provider.dart';
+import 'package:provider/provider.dart';
 
 class MedicineCard extends StatefulWidget {
   final String name, desc;
@@ -9,16 +13,25 @@ class MedicineCard extends StatefulWidget {
 }
 
 class _MedicineCardState extends State<MedicineCard> {
+  List<Color> color = [
+    const Color(0xFFE8F8F1),
+    const Color(0xFFFFE5E5),
+    const Color(0xFFFFF0E5),
+    const Color(0xFFE6F0E8),
+    const Color.fromARGB(255, 217, 206, 248),
+    const Color(0xFFEAF7FF),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height / 7,
+        height: MediaQuery.sizeOf(context).height / 9,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(130, 226, 165, 165),
+          color: color[Random().nextInt(6)],
           borderRadius: BorderRadius.circular(30),
         ),
         child: DefaultTextStyle(
