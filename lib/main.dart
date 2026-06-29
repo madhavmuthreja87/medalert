@@ -4,9 +4,12 @@ import 'package:medalert/screens/add_medicine.dart';
 
 import 'package:medalert/screens/home_screen.dart';
 import 'package:medalert/screens/profile.dart';
+import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationServices().initialize();
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => MedicineProvider())],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/services/notification_services.dart';
 import 'package:medalert/widgets/medicine_card.dart';
 import 'package:provider/provider.dart';
 
@@ -57,61 +58,67 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 17),
               Column(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    height: MediaQuery.sizeOf(context).height / 6.7,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(244, 107, 86, 184),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: DefaultTextStyle(
-                      style: TextStyle(fontSize: 14, color: Colors.white70),
-                      child: Row(
-                        mainAxisAlignment: .spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: .start,
-                            mainAxisAlignment: .spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: .start,
-                                children: [
-                                  Text(
-                                    "Your next medicine in",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      NotificationServices().showNotification();
+                      print("Notication testing");
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.sizeOf(context).height / 6.7,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(244, 107, 86, 184),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: DefaultTextStyle(
+                        style: TextStyle(fontSize: 14, color: Colors.white70),
+                        child: Row(
+                          mainAxisAlignment: .spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: .start,
+                              mainAxisAlignment: .spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: .start,
+                                  children: [
+                                    Text(
+                                      "Your next medicine in",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "45 mins",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
+                                    Text(
+                                      "45 mins",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: .start,
-                                children: [
-                                  Text("Take your BP medicine Diuretics"),
-                                  Text("tablets along with water"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                            backgroundColor: Colors.transparent,
-                            child: Image.network(
-                              "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: .start,
+                                  children: [
+                                    Text("Take your BP medicine Diuretics"),
+                                    Text("tablets along with water"),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                            CircleAvatar(
+                              maxRadius: 25,
+                              backgroundColor: Colors.transparent,
+                              child: Image.network(
+                                "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
