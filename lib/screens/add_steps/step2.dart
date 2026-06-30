@@ -169,7 +169,14 @@ class _Step1State extends State<Step2> {
                             children: [
                               Icon(Icons.timer),
                               SizedBox(width: 10),
-                              Text("Timing"),
+                              selectedtime == null
+                                  ? Text("Timing")
+                                  : Text(
+                                      "Timing:- ${selectedtime?.hour}:${selectedtime?.minute}  HH:MM ",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                             ],
                           ),
                         ),

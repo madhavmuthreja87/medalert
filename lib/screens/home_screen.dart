@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 17),
+              SizedBox(height: 13),
               Column(
                 children: [
                   GestureDetector(
@@ -65,11 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: MediaQuery.sizeOf(context).height / 6.7,
-                      padding: const EdgeInsets.all(20),
+
+                      padding: const EdgeInsets.all(17),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(244, 107, 86, 184),
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(27.5),
                       ),
                       child: DefaultTextStyle(
                         style: TextStyle(fontSize: 14, color: Colors.white70),
@@ -122,9 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 7),
                   Container(
-                    height: MediaQuery.sizeOf(context).height / 2.4,
+                    height: MediaQuery.sizeOf(context).height / 2.355,
                     child: ListView.builder(
                       itemCount: medicines.length,
                       itemBuilder: (context, index) {
