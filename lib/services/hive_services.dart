@@ -7,5 +7,6 @@ class HiveServices {
     await Hive.initFlutter();
     Hive.registerAdapter(MedicineModelAdapter());
     await Hive.openBox<MedicineModel>("medicineBox");
+    await Hive.openBox("userBox");
   }
 }

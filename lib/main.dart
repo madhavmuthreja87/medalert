@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/add_medicine.dart';
 
 import 'package:medalert/screens/home_screen.dart';
 import 'package:medalert/screens/profile.dart';
+import 'package:medalert/screens/sign_up.dart';
 import 'package:medalert/services/hive_services.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +16,10 @@ void main() async {
   await NotificationServices().initialize();
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => MedicineProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => MedicineProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
 
       child: const MyApp(),
     ),
@@ -30,8 +35,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Med Alert',
-      home: const BottomNav(),
+      home: UserProvider().box.isEmpty ? SignUp() : BottomNav(),
     );
+  }
+}
+
+class CheckAuth extends StatefulWidget {
+  const CheckAuth({super.key});
+
+  @override
+  State<CheckAuth> createState() => _CheckAuthState();
+}
+
+class _CheckAuthState extends State<CheckAuth> {
+  @override
+  Widget build(BuildContext context) {
+    if (UserProvider().box.isEmpty) {
+      return BottomNav();
+    } else {
+      return BottomNav();
+    }
   }
 }
 
