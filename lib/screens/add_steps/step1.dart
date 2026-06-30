@@ -24,7 +24,7 @@ class _Step1State extends State<Step1> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: .spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               width: double.infinity,
@@ -70,7 +70,7 @@ class _Step1State extends State<Step1> {
                 ),
                 child: Center(
                   child: Row(
-                    mainAxisAlignment: .center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Next",

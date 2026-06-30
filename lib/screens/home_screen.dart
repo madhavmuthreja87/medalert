@@ -74,14 +74,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: DefaultTextStyle(
                         style: TextStyle(fontSize: 14, color: Colors.white70),
                         child: Row(
-                          mainAxisAlignment: .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
-                              crossAxisAlignment: .start,
-                              mainAxisAlignment: .spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
-                                  crossAxisAlignment: .start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Your next medicine in",
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 Column(
-                                  crossAxisAlignment: .start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("Take your BP medicine Diuretics"),
                                     Text("tablets along with water"),

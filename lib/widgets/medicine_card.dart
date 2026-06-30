@@ -44,14 +44,14 @@ class _MedicineCardState extends State<MedicineCard> {
         child: DefaultTextStyle(
           style: TextStyle(fontSize: 14, color: Colors.grey),
           child: Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                crossAxisAlignment: .start,
-                mainAxisAlignment: .spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    crossAxisAlignment: .start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "${widget.name}",
@@ -64,7 +64,7 @@ class _MedicineCardState extends State<MedicineCard> {
                     ],
                   ),
                   Column(
-                    crossAxisAlignment: .start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [Text("${widget.desc}")],
                   ),
                 ],
@@ -90,6 +90,14 @@ class _MedicineCardState extends State<MedicineCard> {
                         child: Image.network(
                           "https://cdn-icons-png.flaticon.com/512/8638/8638176.png",
                         ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.read<MedicineProvider>().deleteMedicine(
+                            widget.id,
+                          );
+                        },
+                        icon: Icon(Icons.delete),
                       ),
                     ],
                   ),

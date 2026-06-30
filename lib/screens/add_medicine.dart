@@ -25,7 +25,7 @@ class _AddMedicineState extends State<AddMedicine> {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 child: Column(
@@ -53,14 +53,14 @@ class _AddMedicineState extends State<AddMedicine> {
                           color: const Color.fromARGB(255, 116, 115, 115),
                         ),
                         child: Row(
-                          mainAxisAlignment: .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
-                              crossAxisAlignment: .start,
-                              mainAxisAlignment: .spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
-                                  crossAxisAlignment: .start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Medicine",
@@ -73,7 +73,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                   ],
                                 ),
                                 Column(
-                                  crossAxisAlignment: .start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("Add medicine and time.And rest"),
                                     Text("we will make sure to remind you"),
@@ -121,7 +121,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   ),
                   child: Center(
                     child: Row(
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Add",

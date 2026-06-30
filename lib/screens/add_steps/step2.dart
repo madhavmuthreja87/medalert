@@ -40,7 +40,7 @@ class _Step1State extends State<Step2> {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
@@ -192,7 +192,8 @@ class _Step1State extends State<Step2> {
                     id: Random().nextInt(10000),
                     name: medicinenameController.text,
                     desc: medicinedescController.text,
-                    timing: selectedtime!,
+                    hour: selectedtime!.hour,
+                    minute: selectedtime!.minute,
                     quantity: int.parse(medicinequantityController.text),
                   );
                   context.read<MedicineProvider>().addMedicine(medicine);
@@ -247,7 +248,7 @@ class _Step1State extends State<Step2> {
                   ),
                   child: Center(
                     child: Row(
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Next",

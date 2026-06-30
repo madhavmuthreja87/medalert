@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/screens/add_medicine.dart';
 
 import 'package:medalert/screens/home_screen.dart';
 import 'package:medalert/screens/profile.dart';
+import 'package:medalert/services/hive_services.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await HiveServices().init();
   await NotificationServices().initialize();
   runApp(
     MultiProvider(
@@ -25,7 +28,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Med Alert', home: const BottomNav());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Med Alert',
+      home: const BottomNav(),
+    );
   }
 }
 
