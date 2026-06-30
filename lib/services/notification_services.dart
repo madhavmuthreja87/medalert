@@ -44,6 +44,7 @@ class NotificationServices {
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
+    print("Reminder set!!!!!!!!!!!");
   }
 
   Future<void> showNotification() async {

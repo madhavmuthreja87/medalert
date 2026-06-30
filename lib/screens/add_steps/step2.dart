@@ -1,9 +1,11 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/screens/home_screen.dart';
+import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
 class Step2 extends StatefulWidget {
@@ -16,6 +18,7 @@ class Step2 extends StatefulWidget {
 class _Step1State extends State<Step2> {
   TextEditingController medicinenameController = TextEditingController();
   TextEditingController medicinedescController = TextEditingController();
+  TextEditingController medicinequantityController = TextEditingController();
   // TextEditingController medicinetimeController = TextEditingController();
   TimeOfDay? selectedtime;
   @override
@@ -64,7 +67,7 @@ class _Step1State extends State<Step2> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 10,
@@ -77,6 +80,7 @@ class _Step1State extends State<Step2> {
                         controller: medicinenameController,
 
                         decoration: InputDecoration(
+                          hintText: "Medicine name",
                           prefixIcon: Icon(Icons.medical_services_outlined),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -97,6 +101,7 @@ class _Step1State extends State<Step2> {
                         controller: medicinedescController,
 
                         decoration: InputDecoration(
+                          hintText: "Medicine description....",
                           prefixIcon: Icon(Icons.remove_red_eye),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -106,10 +111,32 @@ class _Step1State extends State<Step2> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 20,
+                      right: 20.0,
+                    ),
+                    child: SizedBox(
+                      height: 45,
+                      child: TextField(
+                        controller: medicinequantityController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: "Quantity",
+                          prefixIcon: Icon(Icons.production_quantity_limits),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                   GestureDetector(
                     onTap: () async {
                       final TimeOfDay? pickedtime = await showTimePicker(
+                        initialEntryMode: TimePickerEntryMode.input,
                         context: context,
                         initialTime: TimeOfDay.now(),
                       );
@@ -119,32 +146,80 @@ class _Step1State extends State<Step2> {
                         });
                       }
                     },
-                    child: Container(
-                      height: 30,
-                      width: double.infinity,
-                      child: Text("Timing"),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10.0,
+                        left: 20,
+                        right: 20,
+                      ),
+
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 1,
+                            color: const Color.fromARGB(255, 108, 108, 108),
+                          ),
+                        ),
+                        height: 40,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0, left: 10),
+                          child: Row(
+                            children: [
+                              Icon(Icons.timer),
+                              SizedBox(width: 10),
+                              Text("Timing"),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-
+              SizedBox(height: 10),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   final medicine = MedicineModel(
+                    id: Random().nextInt(10000),
                     name: medicinenameController.text,
                     desc: medicinedescController.text,
                     timing: selectedtime!,
+                    quantity: int.parse(medicinequantityController.text),
                   );
                   context.read<MedicineProvider>().addMedicine(medicine);
+                  final now = DateTime.now();
+                  final scheduleTime = DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    medicine.timing.hour,
+                    medicine.timing.minute,
+                  );
+                  await NotificationServices().scheduleNotification(
+                    id: medicine.id,
+                    title: medicine.name,
+                    body: medicine.desc,
+                    dateTime: scheduleTime,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text("Medicine added!!!"),
+                    ),
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BottomNav()),
                   );
                   final medicines = context.read<MedicineProvider>().medicines;
                   for (final m in medicines) {
+                    print("${m.id}");
                     print("${m.name}");
                     print("${m.desc}");
                     print("${m.timing}");
+                    print("${m.quantity}");
                   }
                 },
                 child: Container(

@@ -131,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         return MedicineCard(
                           name: medicines[index].name,
                           desc: medicines[index].desc,
+                          id: medicines[index].id,
+                          quantity: medicines[index].quantity,
                         );
                       },
                     ),
