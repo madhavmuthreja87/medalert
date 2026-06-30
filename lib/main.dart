@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/screens/add_medicine.dart';
 

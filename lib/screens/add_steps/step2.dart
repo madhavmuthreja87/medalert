@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
-import 'package:medalert/screens/home_screen.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
@@ -217,9 +216,10 @@ class _Step1State extends State<Step2> {
                       content: Text("Medicine added!!!"),
                     ),
                   );
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => BottomNav()),
+                    MaterialPageRoute(builder: (_) => BottomNav()),
+                    (route) => false,
                   );
                   final medicines = context.read<MedicineProvider>().medicines;
                   for (final m in medicines) {

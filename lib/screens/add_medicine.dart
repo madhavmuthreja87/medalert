@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/screens/add_steps/step1.dart';
+import 'package:medalert/screens/add_steps/step2.dart';
 
 class AddMedicine extends StatefulWidget {
   const AddMedicine({super.key});
@@ -100,7 +101,7 @@ class _AddMedicineState extends State<AddMedicine> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Step1()),
+                    MaterialPageRoute(builder: (context) => Step2()),
                   );
                 },
                 child: Container(
