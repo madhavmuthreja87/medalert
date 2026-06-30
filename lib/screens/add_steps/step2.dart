@@ -16,6 +16,8 @@ class Step2 extends StatefulWidget {
 class _Step1State extends State<Step2> {
   TextEditingController medicinenameController = TextEditingController();
   TextEditingController medicinedescController = TextEditingController();
+  // TextEditingController medicinetimeController = TextEditingController();
+  TimeOfDay? selectedtime;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -104,6 +106,25 @@ class _Step1State extends State<Step2> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () async {
+                      final TimeOfDay? pickedtime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (pickedtime != null) {
+                        setState(() {
+                          selectedtime = pickedtime;
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 30,
+                      width: double.infinity,
+                      child: Text("Timing"),
+                    ),
+                  ),
                 ],
               ),
 
@@ -112,6 +133,7 @@ class _Step1State extends State<Step2> {
                   final medicine = MedicineModel(
                     name: medicinenameController.text,
                     desc: medicinedescController.text,
+                    timing: selectedtime!,
                   );
                   context.read<MedicineProvider>().addMedicine(medicine);
                   Navigator.push(
@@ -122,6 +144,7 @@ class _Step1State extends State<Step2> {
                   for (final m in medicines) {
                     print("${m.name}");
                     print("${m.desc}");
+                    print("${m.timing}");
                   }
                 },
                 child: Container(
