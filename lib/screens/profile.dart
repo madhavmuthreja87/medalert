@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    final medicine = context.watch<MedicineProvider>().medicines;
     final user = context.read<UserProvider>().user;
     return Scaffold(
       appBar: AppBar(
@@ -33,10 +35,10 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 12),
               Text(
                 //name
-                "${user[0].name}",
+                "${user[0].name[0].toUpperCase() + user[0].name.substring(1)}",
                 style: GoogleFonts.poppins(
                   fontSize: 30,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
@@ -45,12 +47,13 @@ class _ProfileState extends State<Profile> {
                 style: GoogleFonts.poppins(
                   fontSize: 18.9,
                   color: Colors.grey,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 6),
               Divider(color: Colors.grey),
+              SizedBox(height: 12),
               Row(
                 children: [
                   Text(
@@ -62,12 +65,13 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
+              SizedBox(height: 6),
               Container(
                 width: double.infinity,
 
                 padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(147, 255, 153, 0),
+                  color: const Color.fromARGB(112, 255, 153, 0),
                   borderRadius: BorderRadius.circular(27.5),
                 ),
                 child: DefaultTextStyle(
@@ -78,7 +82,7 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "💊 Medicines Added",
+                            "💊 Medicines Added :",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 17,
@@ -86,7 +90,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            "12",
+                            '${medicine.length}',
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 22,
@@ -99,7 +103,7 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "⏰ Active reminders",
+                            "⏰ Active reminders :",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 17,
@@ -120,7 +124,7 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "✅ Today's Medicines",
+                            "✅ Today's Medicines :",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 17,

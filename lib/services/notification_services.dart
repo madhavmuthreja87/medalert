@@ -38,8 +38,8 @@ class NotificationServices {
     final scheduledDate = tz.TZDateTime.from(dateTime, tz.local);
     await notifications.zonedSchedule(
       id,
-      title,
-      body,
+      '💊 Medicine Reminder',
+      'Time to take $title',
       scheduledDate,
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

@@ -35,7 +35,7 @@ class _MedicineCardState extends State<MedicineCard> {
       padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height / 9,
+        height: MediaQuery.sizeOf(context).height / 10.5,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: color[Random().nextInt(6)],

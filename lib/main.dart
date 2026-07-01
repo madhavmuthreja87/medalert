@@ -33,28 +33,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xFFF8F9FA),
+        appBarTheme: AppBarThemeData(backgroundColor: Color(0xFFF8F9FA)),
+      ),
+
       debugShowCheckedModeBanner: false,
       title: 'Med Alert',
       home: UserProvider().box.isEmpty ? SignUp() : BottomNav(),
     );
-  }
-}
-
-class CheckAuth extends StatefulWidget {
-  const CheckAuth({super.key});
-
-  @override
-  State<CheckAuth> createState() => _CheckAuthState();
-}
-
-class _CheckAuthState extends State<CheckAuth> {
-  @override
-  Widget build(BuildContext context) {
-    if (UserProvider().box.isEmpty) {
-      return BottomNav();
-    } else {
-      return BottomNav();
-    }
   }
 }
 
@@ -82,6 +69,12 @@ class _BottomNavState extends State<BottomNav> {
             index = value;
           });
         },
+        elevation: 10,
+        type: BottomNavigationBarType.shifting,
+
+        iconSize: 20,
+        selectedItemColor: const Color.fromARGB(244, 96, 72, 183),
+        unselectedItemColor: Colors.black,
         currentIndex: index,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
