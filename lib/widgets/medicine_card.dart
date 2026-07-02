@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:medalert/models/reminder_model.dart';
 import 'dart:math';
 
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:provider/provider.dart';
 
 class MedicineCard extends StatefulWidget {
   final String name, desc;
-  final int id, quantity;
+  final int medicineId, quantity;
   const MedicineCard({
     required this.name,
     required this.desc,
-    required this.id,
+    required this.medicineId,
     required this.quantity,
     super.key,
   });
@@ -94,7 +96,10 @@ class _MedicineCardState extends State<MedicineCard> {
                       IconButton(
                         onPressed: () {
                           context.read<MedicineProvider>().deleteMedicine(
-                            widget.id,
+                            widget.medicineId,
+                          );
+                          context.read<ReminderProvider>().deleteReminderFull(
+                            widget.medicineId,
                           );
                         },
                         icon: Icon(Icons.delete),

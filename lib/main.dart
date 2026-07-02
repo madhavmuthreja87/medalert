@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/add_medicine.dart';
 
@@ -19,6 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => MedicineProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ReminderProvider()),
       ],
 
       child: const MyApp(),

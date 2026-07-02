@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final medicine = context.watch<MedicineProvider>().medicines;
     final user = context.read<UserProvider>().user;
+    final reminder = context.watch<ReminderProvider>().reminder;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -111,7 +113,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            "8",
+                            "${reminder.length}",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 22,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:medalert/widgets/medicine_card.dart';
@@ -15,10 +16,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     final medicines = context.watch<MedicineProvider>().medicines;
     final user = context.watch<UserProvider>().user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -154,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       radius: Radius.circular(30),
                       trackVisibility: true,
                       thumbVisibility: true,
+
                       child: ListView.builder(
                         itemCount: medicines.length,
 
@@ -161,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           return MedicineCard(
                             name: medicines[index].name,
                             desc: medicines[index].desc,
-                            id: medicines[index].id,
+                            medicineId: medicines[index].id,
+
                             quantity: medicines[index].quantity,
                           );
                         },

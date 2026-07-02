@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUp> {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
-            mainAxisAlignment: .center,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text.rich(

@@ -13,11 +13,11 @@ class MedicineModel extends HiveObject {
   @HiveField(2)
   final String desc;
 
-  @HiveField(3)
-  final int hour;
+  // @HiveField(3)
+  // final int hour;
 
-  @HiveField(4)
-  final int minute;
+  // @HiveField(4)
+  // final int minute;
 
   @HiveField(5)
   final int quantity;
@@ -26,10 +26,10 @@ class MedicineModel extends HiveObject {
     required this.id,
     required this.name,
     required this.desc,
-    required this.hour,
-    required this.minute,
+    // required this.hour,
+    // required this.minute,
     required this.quantity,
   });
 
-  TimeOfDay get timing => TimeOfDay(hour: hour, minute: minute);
+  // TimeOfDay get timing => TimeOfDay(hour: hour, minute: minute);
 }

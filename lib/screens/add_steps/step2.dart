@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/medicine_model.dart';
+import 'package:medalert/models/reminder_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
@@ -187,22 +189,38 @@ class _Step1State extends State<Step2> {
               SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
+                  var medicineId = Random().nextInt(10000);
                   final medicine = MedicineModel(
-                    id: Random().nextInt(10000),
+                    id: medicineId,
                     name: medicinenameController.text,
                     desc: medicinedescController.text,
-                    hour: selectedtime!.hour,
-                    minute: selectedtime!.minute,
+                    // hour: selectedtime!.hour,
+                    // minute: selectedtime!.minute,
                     quantity: int.parse(medicinequantityController.text),
                   );
                   context.read<MedicineProvider>().addMedicine(medicine);
+                  print("!!!!!!!!!!!!Data added to medicine provider!!!!!!");
+
+                  final reminder = ReminderModel(
+                    id: Random().nextInt(10000),
+                    medicineId: medicineId,
+                    days: [1, 23, 3],
+                    hour: selectedtime!.hour,
+                    minute: selectedtime!.minute,
+                    isActive: true,
+                  );
+                  context.read<ReminderProvider>().addReminder(reminder);
+                  print("Data added to reminder provider");
+
                   final now = DateTime.now();
                   final scheduleTime = DateTime(
                     now.year,
                     now.month,
                     now.day,
-                    medicine.timing.hour,
-                    medicine.timing.minute,
+                    // medicine.timing.hour,
+                    // medicine.timing.minute,
+                    reminder.time.hour,
+                    reminder.time.minute,
                   );
                   await NotificationServices().scheduleNotification(
                     id: medicine.id,
@@ -222,13 +240,27 @@ class _Step1State extends State<Step2> {
                     (route) => false,
                   );
                   final medicines = context.read<MedicineProvider>().medicines;
+                  print("!!!!!!!!!Medicine model data!!!!!!!!!!!");
+                  print("Medicine length: ${medicines.length}");
                   for (final m in medicines) {
                     print("${m.id}");
                     print("${m.name}");
                     print("${m.desc}");
-                    print("${m.timing}");
+                    // print("${m.timing}");
                     print("${m.quantity}");
                   }
+
+                  final reminders = context.read<ReminderProvider>().reminder;
+                  print("Reminder model data");
+                  print("Reminder length: ${reminders.length}");
+                  for (final r in reminders) {
+                    print("${r.id}");
+                    print("${r.medicineId}");
+                    print("${r.time}");
+                    print("${r.days}");
+                    print("${r.isActive}");
+                  }
+                  print("!!!!!!!!!!!!!!!!!!  Done  !!!!!!!!!!!!!");
                 },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 60, left: 20, right: 20),
