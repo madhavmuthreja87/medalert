@@ -20,4 +20,12 @@ class ReminderProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  int get activeReminder {
+    int total = 0;
+    for (final r in box.values) {
+      total += r.days.length;
+    }
+    return total;
+  }
 }

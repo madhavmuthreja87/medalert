@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -18,6 +19,7 @@ class _ProfileState extends State<Profile> {
     final medicine = context.watch<MedicineProvider>().medicines;
     final user = context.read<UserProvider>().user;
     final reminder = context.watch<ReminderProvider>().reminder;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -113,7 +115,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            "${reminder.length}",
+                            "${ReminderProvider().activeReminder}",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 22,

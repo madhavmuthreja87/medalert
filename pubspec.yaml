@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^8.1.0
   provider: 
-  flutter_local_notifications: ^19.4.2
+  flutter_local_notifications: ^19.5.0
   timezone:  ^0.10.1
   hive:
   hive_flutter: 

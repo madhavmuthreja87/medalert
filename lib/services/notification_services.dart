@@ -1,8 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive/hive.dart';
+import 'package:medalert/models/reminder_model.dart';
+import 'package:medalert/providers/reminder_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:medalert/providers/medicine_provider.dart';
 
 class NotificationServices {
   final FlutterLocalNotificationsPlugin notifications =
@@ -15,7 +20,19 @@ class NotificationServices {
     const InitializationSettings settings = InitializationSettings(
       android: androidSettings,
     );
-    await notifications.initialize(settings);
+    await notifications.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (response) {
+        if (response.actionId == 'taken') {
+          final box = Hive.box<ReminderModel>('reminderBox');
+          int reminderID = response.id! ~/ 10;
+          box.delete(reminderID);
+        }
+        print(
+          '!!!!!!!!!!!!!!!!!!!!${response.actionId}!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+        );
+      },
+    );
   }
 
   Future<void> scheduleNotification({
@@ -28,6 +45,14 @@ class NotificationServices {
         AndroidNotificationDetails(
           'medicine_channel',
           'Medicine Reminder',
+          actions: [
+            AndroidNotificationAction(
+              'taken',
+              'Taken',
+              showsUserInterface: true,
+            ),
+            AndroidNotificationAction('skip', 'Skip', showsUserInterface: true),
+          ],
           channelDescription: "Medicine Reminder notification",
           importance: Importance.max,
           priority: Priority.high,
@@ -35,6 +60,7 @@ class NotificationServices {
     const NotificationDetails details = NotificationDetails(
       android: androidDetails,
     );
+
     final scheduledDate = tz.TZDateTime.from(dateTime, tz.local);
     await notifications.zonedSchedule(
       id,
@@ -44,28 +70,29 @@ class NotificationServices {
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
+    // notifications
     print("Reminder set!!!!!!!!!!!");
   }
 
-  Future<void> showNotification() async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-          'medicine_channel',
-          'Medicine Reminder',
-          channelDescription: "Medicine Reminder notification",
-          importance: Importance.max,
-          priority: Priority.high,
-        );
-    const NotificationDetails details = NotificationDetails(
-      android: androidDetails,
-    );
+  //   Future<void> showNotification() async {
+  //     const AndroidNotificationDetails androidDetails =
+  //         AndroidNotificationDetails(
+  //           'medicine_channel',
+  //           'Medicine Reminder',
+  //           channelDescription: "Medicine Reminder notification",
+  //           importance: Importance.max,
+  //           priority: Priority.high,
+  //         );
+  //     const NotificationDetails details = NotificationDetails(
+  //       android: androidDetails,
+  //     );
 
-    await notifications.show(
-      0,
-      '💊 Medicine Reminder',
+  //     await notifications.show(
+  //       0,
+  //       '💊 Medicine Reminder',
 
-      'Time to take Paracetamol',
-      details,
-    );
-  }
+  //       'Time to take Paracetamol',
+  //       details,
+  //     );
+  //   }
 }

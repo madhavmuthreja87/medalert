@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ScrollController _scrollController = ScrollController();
+  //final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,75 +77,69 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 13),
               Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      NotificationServices().showNotification();
-                      print("Notication testing");
-                    },
-                    child: Container(
-                      width: double.infinity,
+                  Container(
+                    width: double.infinity,
 
-                      padding: const EdgeInsets.all(17),
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 119, 98, 195),
-                        borderRadius: BorderRadius.circular(27.5),
+                    padding: const EdgeInsets.all(17),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 119, 98, 195),
+                      borderRadius: BorderRadius.circular(27.5),
 
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 3.2,
-                            offset: Offset(-1, 3),
-                            spreadRadius: 1,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 3.2,
+                          offset: Offset(-1, 3),
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: DefaultTextStyle(
+                      style: TextStyle(fontSize: 14, color: Colors.white70),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Your next medicine in",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "45 mins",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Take your BP medicine Diuretics"),
+                                  Text("tablets along with water"),
+                                ],
+                              ),
+                            ],
+                          ),
+                          CircleAvatar(
+                            maxRadius: 25,
+                            backgroundColor: Colors.transparent,
+                            child: Image.network(
+                              "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
+                            ),
                           ),
                         ],
-                      ),
-                      child: DefaultTextStyle(
-                        style: TextStyle(fontSize: 14, color: Colors.white70),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Your next medicine in",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      "45 mins",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Take your BP medicine Diuretics"),
-                                    Text("tablets along with water"),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            CircleAvatar(
-                              maxRadius: 25,
-                              backgroundColor: Colors.transparent,
-                              child: Image.network(
-                                "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                   ),
@@ -153,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     height: MediaQuery.sizeOf(context).height / 2.355,
                     child: Scrollbar(
-                      controller: _scrollController,
+                      //  controller: _scrollController,
                       radius: Radius.circular(30),
                       trackVisibility: true,
                       thumbVisibility: true,
