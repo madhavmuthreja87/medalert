@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final medicines = context.watch<MedicineProvider>().medicines;
     final user = context.watch<UserProvider>().user;
+    final todayMedicineID = context.watch<ReminderProvider>().todayMedicineId;
 
     return Scaffold(
       appBar: AppBar(
@@ -156,13 +157,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: medicines.length,
 
                         itemBuilder: (context, index) {
-                          return MedicineCard(
-                            name: medicines[index].name,
-                            desc: medicines[index].desc,
-                            medicineId: medicines[index].id,
+                          if (todayMedicineID.contains(medicines[index].id)) {
+                            return MedicineCard(
+                              name: medicines[index].name,
+                              desc: medicines[index].desc,
+                              medicineId: medicines[index].id,
 
-                            quantity: medicines[index].quantity,
-                          );
+                              quantity: medicines[index].quantity,
+                            );
+                          }
                         },
                       ),
                     ),

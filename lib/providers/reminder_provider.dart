@@ -21,6 +21,17 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<int> get todayMedicineId {
+    List<int> mid = [];
+    DateTime time = DateTime.now();
+    for (final r in box.values) {
+      if (r.days.contains(time.weekday)) {
+        mid.add(r.medicineId);
+      }
+    }
+    return mid;
+  }
+
   int get activeReminder {
     int total = 0;
     for (final r in box.values) {

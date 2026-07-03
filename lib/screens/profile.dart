@@ -75,7 +75,7 @@ class _ProfileState extends State<Profile> {
 
                 padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(112, 255, 153, 0),
+                  color: const Color.fromARGB(81, 251, 152, 5),
                   borderRadius: BorderRadius.circular(27.5),
                 ),
                 child: DefaultTextStyle(
@@ -128,7 +128,7 @@ class _ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "✅ Today's Medicines :",
+                            "✅ Remaining Today :",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 17,

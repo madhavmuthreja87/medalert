@@ -3,6 +3,7 @@ import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/add_medicine.dart';
+import 'package:medalert/screens/full_store.dart';
 
 import 'package:medalert/screens/home_screen.dart';
 import 'package:medalert/screens/profile.dart';
@@ -58,6 +59,7 @@ class _BottomNavState extends State<BottomNav> {
   List<Widget> screen = [
     const HomeScreen(),
     const AddMedicine(),
+    const FullStore(),
     const Profile(),
   ];
   int index = 0;
@@ -81,6 +83,10 @@ class _BottomNavState extends State<BottomNav> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "add"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.file_copy),
+            label: "storage",
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "profile"),
         ],
       ),
