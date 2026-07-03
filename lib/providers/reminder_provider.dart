@@ -28,4 +28,15 @@ class ReminderProvider extends ChangeNotifier {
     }
     return total;
   }
+
+  int get todayReminder {
+    int total = 0;
+    DateTime time = DateTime.now();
+    for (final r in box.values) {
+      if (r.days.contains(time.weekday)) {
+        total++;
+      }
+    }
+    return total;
+  }
 }

@@ -209,7 +209,7 @@ class _Step1State extends State<Step2> {
                             ),
                             decoration: BoxDecoration(
                               color: isMorning
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(205, 161, 253, 164)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -229,7 +229,7 @@ class _Step1State extends State<Step2> {
                             ),
                             decoration: BoxDecoration(
                               color: isEvening
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(205, 161, 253, 164)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -245,11 +245,11 @@ class _Step1State extends State<Step2> {
                           child: Container(
                             child: Padding(
                               padding: const EdgeInsets.all(17.0),
-                              child: Text("Night.."),
+                              child: Text(" Night "),
                             ),
                             decoration: BoxDecoration(
                               color: isNight
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(205, 161, 253, 164)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -267,7 +267,7 @@ class _Step1State extends State<Step2> {
                       right: 20,
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -280,12 +280,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
                               child: Text("Mon"),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(1)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -303,12 +303,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text("Tue"),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
+                              child: Text("Tue "),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(2)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -326,12 +326,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
                               child: Text("Wed"),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(3)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -350,12 +350,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
                               child: Text("Thu"),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(4)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -373,12 +373,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text("Fri"),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
+                              child: Text("Fri "),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(5)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -396,12 +396,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text("Sat"),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
+                              child: Text("Sat "),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(6)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),
@@ -419,12 +419,12 @@ class _Step1State extends State<Step2> {
                           },
                           child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(17.0),
+                              padding: const EdgeInsets.fromLTRB(7, 17, 7, 17),
                               child: Text("Sun"),
                             ),
                             decoration: BoxDecoration(
                               color: days.contains(7)
-                                  ? const Color.fromARGB(255, 137, 249, 141)
+                                  ? const Color.fromARGB(137, 65, 168, 252)
                                   : Colors.transparent,
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(17),

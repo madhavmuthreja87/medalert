@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            "3",
+                            "${ReminderProvider().todayReminder}",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 22,
