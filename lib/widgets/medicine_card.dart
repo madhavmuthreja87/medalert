@@ -34,7 +34,7 @@ class _MedicineCardState extends State<MedicineCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
       child: Container(
         width: double.infinity,
         height: MediaQuery.sizeOf(context).height / 10.5,
@@ -56,7 +56,7 @@ class _MedicineCardState extends State<MedicineCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${widget.name}",
+                        "${widget.name}  ${widget.medicineId}",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,
@@ -87,10 +87,11 @@ class _MedicineCardState extends State<MedicineCard> {
 
                       SizedBox(width: 20),
                       CircleAvatar(
-                        maxRadius: 25,
+                        maxRadius: 17,
                         backgroundColor: Colors.transparent,
                         child: Image.network(
                           "https://cdn-icons-png.flaticon.com/512/8638/8638176.png",
+                          fit: BoxFit.cover,
                         ),
                       ),
                       IconButton(

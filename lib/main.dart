@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFF8F9FA),
+
         appBarTheme: AppBarThemeData(backgroundColor: Color(0xFFF8F9FA)),
       ),
 

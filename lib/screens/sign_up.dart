@@ -109,8 +109,8 @@ class _SignUpState extends State<SignUp> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(244, 107, 86, 184),
-
-                    shadowColor: Colors.grey,
+                    elevation: 25,
+                    shadowColor: Colors.black,
                   ),
 
                   onPressed: () {

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -16,12 +19,48 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //final ScrollController _scrollController = ScrollController();
+  Timer? timer;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    timer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted) {
+        print("!!!!!!!!!!1HOME SCREEN BUILT!!!!!!!!!1");
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final medicines = context.watch<MedicineProvider>().medicines;
     final user = context.watch<UserProvider>().user;
     final todayMedicineID = context.watch<ReminderProvider>().todayMedicineId;
+    final todayMedicines = medicines
+        .where((m) => todayMedicineID.contains(m.id))
+        .toList();
+    final nearestReminder = context.watch<ReminderProvider>().nearestReminder;
+
+    final diff = nearestReminder.nexttime.difference(DateTime.now());
+
+    MedicineModel? nearestMedicineDetails() {
+      final nearstmedicineId = nearestReminder.reminder.medicineId;
+      for (final m in medicines) {
+        if (m.id == nearstmedicineId) {
+          return m;
+        }
+      }
+      return null;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text.rich(
                 TextSpan(
                   text: "Hello, ",
-                  style: GoogleFonts.pacifico(fontSize: 18),
+                  style: GoogleFonts.pacifico(fontSize: 20),
                   children: <InlineSpan>[
                     TextSpan(
                       text:
@@ -78,75 +117,115 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 13),
               Column(
                 children: [
-                  Container(
-                    width: double.infinity,
+                  GestureDetector(
+                    onTap: () {
+                      for (final tdmid in todayMedicineID) {
+                        print(tdmid);
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
 
-                    padding: const EdgeInsets.all(17),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 119, 98, 195),
-                      borderRadius: BorderRadius.circular(27.5),
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 119, 98, 195),
+                        borderRadius: BorderRadius.circular(22.5),
 
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 3.2,
-                          offset: Offset(-1, 3),
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: DefaultTextStyle(
-                      style: TextStyle(fontSize: 14, color: Colors.white70),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Your next medicine in",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    "45 mins",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Take your BP medicine Diuretics"),
-                                  Text("tablets along with water"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          CircleAvatar(
-                            maxRadius: 25,
-                            backgroundColor: Colors.transparent,
-                            child: Image.network(
-                              "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
-                            ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4.2,
+                            offset: Offset(-2.5, 4),
+                            color: Colors.black87,
+                            spreadRadius: 1.5,
                           ),
                         ],
+                      ),
+                      child: DefaultTextStyle(
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Your next medicine in",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        diff.inHours != 0
+                                            ? Text(
+                                                "${diff.inHours} hour and ",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                            : Text(""),
+                                        Text(
+                                          "${diff.inMinutes % 60} minutes",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text("Take your "),
+                                        Text(
+                                          '${nearestMedicineDetails()?.name}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                        Text(" medicine"),
+                                      ],
+                                    ),
+                                    Text("${nearestMedicineDetails()?.desc}"),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            CircleAvatar(
+                              maxRadius: 25,
+                              backgroundColor: Colors.transparent,
+                              child: Image.network(
+                                "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(height: 7),
                   Container(
-                    height: MediaQuery.sizeOf(context).height / 2.355,
+                    height: MediaQuery.sizeOf(context).height / 2.7,
                     child: Scrollbar(
                       //  controller: _scrollController,
                       radius: Radius.circular(30),
@@ -154,75 +233,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       thumbVisibility: true,
 
                       child: ListView.builder(
-                        itemCount: medicines.length,
+                        itemCount: todayMedicines.length,
 
                         itemBuilder: (context, index) {
-                          if (todayMedicineID.contains(medicines[index].id)) {
-                            return MedicineCard(
-                              name: medicines[index].name,
-                              desc: medicines[index].desc,
-                              medicineId: medicines[index].id,
-
-                              quantity: medicines[index].quantity,
-                            );
-                          }
+                          final medicine = todayMedicines[index];
+                          return MedicineCard(
+                            name: medicine.name,
+                            desc: medicine.desc,
+                            medicineId: medicine.id,
+                            quantity: medicine.quantity,
+                          );
                         },
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     height: MediaQuery.sizeOf(context).height / 5,
-                  //     padding: const EdgeInsets.all(20),
-                  //     decoration: BoxDecoration(
-                  //       color: const Color.fromARGB(130, 226, 165, 165),
-                  //       borderRadius: BorderRadius.circular(30),
-                  //     ),
-                  //     child: DefaultTextStyle(
-                  //       style: TextStyle(fontSize: 14, color: Colors.grey),
-                  //       child: Row(
-                  //         mainAxisAlignment: .spaceBetween,
-                  //         children: [
-                  //           Column(
-                  //             crossAxisAlignment: .start,
-                  //             mainAxisAlignment: .spaceBetween,
-                  //             children: [
-                  //               Column(
-                  //                 crossAxisAlignment: .start,
-                  //                 children: [
-                  //                   Text(
-                  //                     "Bacterium Tablets",
-                  //                     style: TextStyle(
-                  //                       fontWeight: FontWeight.w600,
-                  //                       fontSize: 20,
-                  //                       color: Colors.black,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //               Column(
-                  //                 crossAxisAlignment: .start,
-                  //                 children: [
-                  //                   Text("Take your infection tablets"),
-                  //                   Text("Bacterium along with water"),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //           CircleAvatar(
-                  //             maxRadius: 25,
-                  //             backgroundColor: Colors.transparent,
-                  //             child: Image.network(
-                  //               "https://cdn-icons-png.flaticon.com/512/8638/8638176.png",
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ],
