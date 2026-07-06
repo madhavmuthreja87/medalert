@@ -53,7 +53,7 @@ class ReminderProvider extends ChangeNotifier {
     return total;
   }
 
-  NearestReminderModel get nearestReminder {
+  NearestReminderModel? get nearestReminder {
     NearestReminderModel? nearesttime;
     Duration? smallestDifference;
     DateTime timenow = DateTime.now();
@@ -88,6 +88,6 @@ class ReminderProvider extends ChangeNotifier {
         }
       }
     }
-    return nearesttime!;
+    return nearesttime;
   }
 }

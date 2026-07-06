@@ -50,16 +50,16 @@ class _HomeScreenState extends State<HomeScreen> {
         .toList();
     final nearestReminder = context.watch<ReminderProvider>().nearestReminder;
 
-    final diff = nearestReminder.nexttime.difference(DateTime.now());
+    final diff = nearestReminder?.nexttime.difference(DateTime.now());
 
-    MedicineModel? nearestMedicineDetails() {
-      final nearstmedicineId = nearestReminder.reminder.medicineId;
+    MedicineModel nearestMedicineDetails() {
+      final nearstmedicineId = nearestReminder?.reminder.medicineId;
       for (final m in medicines) {
         if (m.id == nearstmedicineId) {
           return m;
         }
       }
-      return null;
+      return MedicineModel(id: 0, name: "", desc: "", quantity: 0);
     }
 
     return Scaffold(
@@ -145,81 +145,103 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 14,
                           color: Colors.white70,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Your next medicine in",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 22,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        diff.inHours != 0
-                                            ? Text(
-                                                "${diff.inHours} hour and ",
+                        child: nearestReminder != null
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Your next medicine in",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              diff?.inHours != 0
+                                                  ? Text(
+                                                      "${diff?.inHours} hour and ",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 20,
+                                                      ),
+                                                    )
+                                                  : Text(""),
+                                              Text(
+                                                "${diff!.inMinutes % 60} minutes",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 20,
                                                 ),
-                                              )
-                                            : Text(""),
-                                        Text(
-                                          "${diff.inMinutes % 60} minutes",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20,
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text("Take your "),
-                                        Text(
-                                          '${nearestMedicineDetails()?.name}',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                            fontSize: 22,
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text("Take your "),
+                                              Text(
+                                                '${nearestMedicineDetails().name}',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.white,
+                                                  fontSize: 19,
+                                                ),
+                                              ),
+                                              Text(" medicine"),
+                                            ],
                                           ),
-                                        ),
-                                        Text(" medicine"),
-                                      ],
+                                          Text(
+                                            "${nearestMedicineDetails()!.desc}",
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  CircleAvatar(
+                                    maxRadius: 25,
+                                    backgroundColor: Colors.transparent,
+                                    child: Image.network(
+                                      "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
                                     ),
-                                    Text("${nearestMedicineDetails()?.desc}"),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            CircleAvatar(
-                              maxRadius: 25,
-                              backgroundColor: Colors.transparent,
-                              child: Image.network(
-                                "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Text(
+                                    "No medicine added",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  SizedBox(height: 50),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                   ),

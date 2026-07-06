@@ -28,17 +28,26 @@ class _FullStoreState extends State<FullStore> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
-          child: ListView.builder(
-            itemCount: medicine.length,
-            itemBuilder: (context, index) {
-              return MedicineCard(
-                name: medicine[index].name,
-                desc: medicine[index].desc,
-                medicineId: medicine[index].id,
-                quantity: medicine[index].quantity,
-              );
-            },
-          ),
+          child: medicine.length != 0
+              ? ListView.builder(
+                  itemCount: medicine.length,
+                  itemBuilder: (context, index) {
+                    return MedicineCard(
+                      name: medicine[index].name,
+                      desc: medicine[index].desc,
+                      medicineId: medicine[index].id,
+                      quantity: medicine[index].quantity,
+                    );
+                  },
+                )
+              : Text(
+                  "No medicine added yet!!!",
+                  style: GoogleFonts.poppins(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 106, 73, 224),
+                  ),
+                ),
         ),
       ),
     );
