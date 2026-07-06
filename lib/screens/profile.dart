@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -17,7 +20,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final medicine = context.watch<MedicineProvider>().medicines;
-    final user = context.read<UserProvider>().user;
+    final user = context.watch<UserProvider>().user;
     final reminder = context.watch<ReminderProvider>().reminder;
 
     return Scaffold(
@@ -35,7 +38,15 @@ class _ProfileState extends State<Profile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // SizedBox(height: MediaQuery.sizeOf(context).height / 100),
-              CircleAvatar(radius: 40, child: Icon(Icons.person_2_rounded)),
+              GestureDetector(
+                onTap: () {
+                  context.read<UserProvider>().pickImageAndSave();
+                },
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundImage: FileImage(File(user[0].photoUrl)),
+                ),
+              ),
               SizedBox(height: 12),
               Text(
                 //name
@@ -64,7 +75,7 @@ class _ProfileState extends State<Profile> {
                     "Your Stastics",
                     style: GoogleFonts.poppins(
                       fontSize: 27.5,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // SizedBox(height: MediaQuery.sizeOf(context).height / 100),
-              CircleAvatar(child: Icon(Icons.person_2_rounded)),
+              CircleAvatar(backgroundImage: FileImage(File(user[0].photoUrl))),
               SizedBox(height: 12),
               Text.rich(
                 TextSpan(

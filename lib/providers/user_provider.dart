@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:medalert/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -24,5 +28,31 @@ class UserProvider extends ChangeNotifier {
       "photoUrl": user.photoUrl,
     });
     notifyListeners();
+  }
+
+  final picker = ImagePicker();
+
+  Future<void> pickImageAndSave() async {
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+
+    final String? path = file?.path;
+
+    final UserModel currentUser = user[0];
+
+    if (path != null) {
+      currentUser.photoUrl = path;
+      box.put(currentUser.uid, {
+        "uid": currentUser.uid,
+        "name": currentUser.name,
+        "email": currentUser.email,
+        "profession": currentUser.profession,
+        "photoUrl": currentUser.photoUrl,
+      });
+    }
+    notifyListeners();
+    print(
+      "!!!!!!!!!!!!!!!!!!!!!!!!!USER LENGTH: ${user.length}!!!!!!!!!!!!!!!!!!!!!!!!",
+    );
+    print("Image path: ${user[0].photoUrl}");
   }
 }

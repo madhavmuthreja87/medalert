@@ -120,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                       final user = UserModel(
                         email: emailController.text,
                         name: nameController.text,
-                        photoUrl: "fdfgdf",
+                        photoUrl: "",
                         profession: professionController.text,
                         uid: Random().nextInt(100),
                       );
