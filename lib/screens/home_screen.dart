@@ -7,6 +7,7 @@ import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
+import 'package:medalert/screens/sign_up.dart';
 import 'package:medalert/services/notification_services.dart';
 import 'package:medalert/widgets/medicine_card.dart';
 import 'package:provider/provider.dart';
@@ -120,9 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      for (final tdmid in todayMedicineID) {
-                        print(tdmid);
-                      }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUp()),
+                      );
                     },
                     child: Container(
                       width: double.infinity,
