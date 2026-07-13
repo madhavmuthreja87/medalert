@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medalert/firebase_options.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -15,6 +18,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await HiveServices().init();
   await NotificationServices().initialize();
   runApp(
@@ -38,7 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(210, 255, 255, 255),
+        scaffoldBackgroundColor: Color(0xFFF8F9FA),
 
         appBarTheme: AppBarThemeData(backgroundColor: Color(0xFFF8F9FA)),
       ),

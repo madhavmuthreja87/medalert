@@ -43,6 +43,16 @@ dependencies:
   hive_flutter: 
   build_runner: 
   hive_generator: 
+
+  firebase_core: 
+  firebase_auth: 
+  cloud_firestore: 
+  firebase_crashlytics: 
+  firebase_analytics: 
+  google_sign_in: 
+  flutter_dotenv: 
+  
+
  
 dev_dependencies:
   build_runner: 
