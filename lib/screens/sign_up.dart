@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/user_model.dart';
 import 'package:medalert/providers/user_provider.dart';
@@ -23,7 +24,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String name = "", email = "", password = "";
-  userRegister() async {
+  Future userRegister() async {
     setState(() {
       isLoading = true;
     });
@@ -86,6 +87,28 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      await _googleSignIn.initialize();
+
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
+
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credential);
+    } catch (e) {
+      print("Google Sign-In Error: $e");
+      return null;
     }
   }
 
@@ -203,6 +226,24 @@ class _SignUpState extends State<SignUp> {
               ),
 
               SizedBox(height: 100),
+              OutlinedButton(
+                onPressed: () async {
+                  await signInWithGoogle();
+                  final user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    setState(() {
+                      name = user.displayName!;
+                      email = user.email!;
+                    });
+                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => BottomNav()),
+                  );
+                },
+                child: Text("google"),
+              ),
+
               SizedBox(
                 height: 40,
                 width: double.infinity,
