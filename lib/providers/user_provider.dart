@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -23,7 +25,7 @@ class UserProvider extends ChangeNotifier {
     );
   }
 
-  void saveUser(UserModel user) {
+  void saveUser(UserModel user) async {
     box.put("currentUser", {
       "uid": user.uid,
       "name": user.name,
@@ -31,6 +33,19 @@ class UserProvider extends ChangeNotifier {
       "profession": user.profession,
       "photoUrl": user.photoUrl,
     });
+    //Adding data into firebase Firestore
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    try {
+      await FirebaseFirestore.instance.collection('Users').doc(uid).set({
+        "name": user.name,
+        "email": user.email,
+        "profession": user.profession,
+        "photoUrl": user.photoUrl,
+      });
+      print("Data saved to fire base");
+    } on FirebaseException catch (e) {
+      print(e.code);
+    }
     notifyListeners();
   }
 
