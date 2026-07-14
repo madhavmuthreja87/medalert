@@ -1,113 +1,56 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/user_model.dart';
 import 'package:medalert/providers/user_provider.dart';
-import 'package:medalert/screens/log_in.dart';
-
+import 'package:medalert/screens/sign_up.dart';
 import 'package:provider/provider.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class LogIn extends StatefulWidget {
+  const LogIn({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<LogIn> createState() => _LogInState();
 }
 
-class _SignUpState extends State<SignUp> {
-  bool isLoading = false;
+class _LogInState extends State<LogIn> {
   final _formkey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String name = "", email = "", password = "";
-  Future userRegister() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      print("User created!!!!!!!!!");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.lightGreen,
-          content: Text(
-            "Successfully Account created",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "Weak password",
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-        );
-      }
-      if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.orangeAccent,
-            content: Text(
-              "Email already in use",
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-        );
-      }
-      if (e.code == 'invalid-email') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "Invalid email",
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-        );
-      }
-      print("Error occured");
-      print(e.message);
-      print(e.code);
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-
-  Future<UserCredential?> signInWithGoogle() async {
+  String email = "", password = "";
+  bool isLoading = false;
+  Future userLogin() async {
     try {
       setState(() {
         isLoading = true;
       });
-      await _googleSignIn.initialize();
 
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
-
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.lightGreen,
+          content: Text(
+            "Suceesfully User Logged In",
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ),
       );
 
-      return await _auth.signInWithCredential(credential);
-    } catch (e) {
-      print("Google Sign-In Error: $e");
-      return null;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => BottomNav()),
+      );
+      return await userCredential;
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text(e.code, style: TextStyle(fontWeight: FontWeight.w600)),
+        ),
+      );
     } finally {
       setState(() {
         isLoading = false;
@@ -135,14 +78,14 @@ class _SignUpState extends State<SignUp> {
             children: [
               Text.rich(
                 TextSpan(
-                  text: "Create ",
+                  text: "Welcome ",
                   style: GoogleFonts.poppins(
                     fontSize: 35,
                     fontWeight: FontWeight.w700,
                   ),
                   children: <InlineSpan>[
                     TextSpan(
-                      text: "Account",
+                      text: "Back",
                       style: GoogleFonts.poppins(
                         fontSize: 35,
                         fontWeight: FontWeight.w700,
@@ -157,28 +100,6 @@ class _SignUpState extends State<SignUp> {
                 key: _formkey,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 70,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: nameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Enter your name";
-                            } else
-                              return null;
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
                     SizedBox(
                       height: 70,
                       child: Padding(
@@ -229,52 +150,7 @@ class _SignUpState extends State<SignUp> {
               ),
 
               SizedBox(height: 60),
-              OutlinedButton(
-                onPressed: () async {
-                  await signInWithGoogle();
-                  final User = FirebaseAuth.instance.currentUser;
-                  if (User != null) {
-                    setState(() {
-                      name = User.displayName!;
-                      email = User.email!;
-                    });
-                  }
 
-                  final user = UserModel(
-                    email: email,
-                    name: name,
-                    photoUrl: "klln",
-                    profession: "",
-                    uid: User?.uid ?? "Uid",
-                  );
-                  context.read<UserProvider>().saveUser(user);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const BottomNav()),
-                  );
-                  print(User?.displayName);
-                },
-                child: Container(
-                  height: 40,
-                  width: double.infinity,
-                  child: Row(
-                    children: [
-                      Image.network(
-                        height: 30,
-                        "https://tse4.mm.bing.net/th/id/OIP.Lx_8Mg6rEyd7aBoGv7QiZgHaHa?r=0&w=1000&h=1000&rs=1&pid=ImgDetMain&o=7&rm=3",
-                      ),
-                      SizedBox(width: 40),
-                      isLoading == true
-                          ? Container(
-                              margin: EdgeInsets.only(top: 2, bottom: 2),
-
-                              child: CircularProgressIndicator(strokeWidth: 3),
-                            )
-                          : Text("Sign in with Google"),
-                    ],
-                  ),
-                ),
-              ),
               SizedBox(height: 40),
               SizedBox(
                 height: 40,
@@ -288,25 +164,21 @@ class _SignUpState extends State<SignUp> {
 
                   onPressed: () async {
                     if (_formkey.currentState!.validate()) {
-                      name = nameController.text;
                       email = emailController.text;
                       password = passwordController.text;
 
-                      await userRegister();
+                      await userLogin();
                       final credential = FirebaseAuth.instance.currentUser;
 
                       final user = UserModel(
                         email: emailController.text,
-                        name: nameController.text,
-                        photoUrl: "cvs",
+
+                        photoUrl: "kmlk",
                         profession: passwordController.text,
                         uid: credential?.uid ?? "Uid",
+                        name: credential?.displayName ?? "User",
                       );
                       context.read<UserProvider>().saveUser(user);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const BottomNav()),
-                      );
                     }
                   },
                   child: isLoading == true
@@ -328,20 +200,19 @@ class _SignUpState extends State<SignUp> {
                         ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 40),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => LogIn()),
+                    MaterialPageRoute(builder: (context) => SignUp()),
                   );
                 },
                 child: Text(
-                  "Already have an account ?",
+                  "Does'nt have an account ?",
                   style: TextStyle(fontSize: 17),
                 ),
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),

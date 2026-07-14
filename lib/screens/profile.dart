@@ -20,7 +20,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final medicine = context.watch<MedicineProvider>().medicines;
-    final user = context.watch<UserProvider>().user;
+    final user = context.watch<UserProvider>().currentUser;
     final reminder = context.watch<ReminderProvider>().reminder;
 
     return Scaffold(
@@ -44,13 +44,13 @@ class _ProfileState extends State<Profile> {
                 },
                 child: CircleAvatar(
                   radius: 40,
-                  backgroundImage: FileImage(File(user[0].photoUrl)),
+                  backgroundImage: FileImage(File(user!.photoUrl)),
                 ),
               ),
               SizedBox(height: 12),
               Text(
                 //name
-                "${user[0].name[0].toUpperCase() + user[0].name.substring(1)}",
+                "${user.name[0].toUpperCase()}",
                 style: GoogleFonts.poppins(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> {
               ),
               Text(
                 //name
-                "${user[0].profession}", //profession
+                "${user.profession}", //profession
                 style: GoogleFonts.poppins(
                   fontSize: 18.9,
                   color: Colors.grey,

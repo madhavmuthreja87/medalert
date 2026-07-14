@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final medicines = context.watch<MedicineProvider>().medicines;
-    final user = context.watch<UserProvider>().user;
+    final user = context.watch<UserProvider>().currentUser;
     final todayMedicineID = context.watch<ReminderProvider>().todayMedicineId;
     final todayMedicines = medicines
         .where((m) => todayMedicineID.contains(m.id))
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // SizedBox(height: MediaQuery.sizeOf(context).height / 100),
-              CircleAvatar(backgroundImage: FileImage(File(user[0].photoUrl))),
+              CircleAvatar(backgroundImage: FileImage(File(user!.photoUrl))),
               SizedBox(height: 12),
               Text.rich(
                 TextSpan(
@@ -87,9 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: GoogleFonts.pacifico(fontSize: 20),
                   children: <InlineSpan>[
                     TextSpan(
-                      text:
-                          user[0].name[0].toUpperCase() +
-                          user[0].name.substring(1),
+                      text: user.name[0].toUpperCase() + user.name.substring(1),
                       style: GoogleFonts.pacifico(fontSize: 18),
                     ),
                   ],

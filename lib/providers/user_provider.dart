@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -7,9 +8,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:medalert/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
-  final box = Hive.box("userBox");
+  final Box box = Hive.box("userBox");
 
-  List<UserModel> get user => box.values.map((data) {
+  UserModel? get currentUser {
+    final data = box.get("currentUser");
+    if (data == null) return null;
+
     return UserModel(
       name: data["name"],
       uid: data["uid"],
@@ -17,16 +21,21 @@ class UserProvider extends ChangeNotifier {
       email: data["email"],
       photoUrl: data["photoUrl"],
     );
-  }).toList();
+  }
 
-  void addUser(UserModel user) {
-    box.put(user.uid, {
+  void saveUser(UserModel user) {
+    box.put("currentUser", {
       "uid": user.uid,
       "name": user.name,
       "email": user.email,
       "profession": user.profession,
       "photoUrl": user.photoUrl,
     });
+    notifyListeners();
+  }
+
+  void logout() {
+    box.delete("currentUser");
     notifyListeners();
   }
 
@@ -37,8 +46,11 @@ class UserProvider extends ChangeNotifier {
 
     final String? path = file?.path;
 
-    final UserModel currentUser = user[0];
-
+    if (file == null) return;
+    final currentUser = this.currentUser;
+    if (currentUser == null) {
+      return;
+    }
     if (path != null) {
       currentUser.photoUrl = path;
       box.put(currentUser.uid, {
@@ -50,9 +62,5 @@ class UserProvider extends ChangeNotifier {
       });
     }
     notifyListeners();
-    print(
-      "!!!!!!!!!!!!!!!!!!!!!!!!!USER LENGTH: ${user.length}!!!!!!!!!!!!!!!!!!!!!!!!",
-    );
-    print("Image path: ${user[0].photoUrl}");
   }
 }
