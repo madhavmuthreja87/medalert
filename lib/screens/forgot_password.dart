@@ -1,50 +1,37 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medalert/main.dart';
 import 'package:medalert/models/user_model.dart';
 import 'package:medalert/providers/user_provider.dart';
-import 'package:medalert/screens/forgot_password.dart';
 import 'package:medalert/screens/sign_up.dart';
 import 'package:provider/provider.dart';
 
-class LogIn extends StatefulWidget {
-  const LogIn({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _LogInState extends State<LogIn> {
-  final _formkey = GlobalKey<FormState>();
+class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  String email = "", password = "";
-  bool isLoading = false;
-  Future userLogin() async {
+  String email = "";
+  final _formkey = GlobalKey<FormState>();
+  Future forgotPassword() async {
     try {
-      setState(() {
-        isLoading = true;
-      });
+      // ignore: unused_local_variable
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: const Color.fromARGB(238, 111, 97, 160),
           content: Text(
-            "Suceesfully User Logged In",
+            'If user exists for this email, a password link has been sent.',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
       );
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => BottomNav()),
-      );
-      return await userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.code);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -52,10 +39,6 @@ class _LogInState extends State<LogIn> {
           content: Text(e.code, style: TextStyle(fontWeight: FontWeight.w600)),
         ),
       );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
@@ -79,16 +62,16 @@ class _LogInState extends State<LogIn> {
             children: [
               Text.rich(
                 TextSpan(
-                  text: "Welcome ",
+                  text: "Forgot ",
                   style: GoogleFonts.poppins(
-                    fontSize: 35,
+                    fontSize: 33,
                     fontWeight: FontWeight.w700,
                   ),
                   children: <InlineSpan>[
                     TextSpan(
-                      text: "Back",
+                      text: "Passoword",
                       style: GoogleFonts.poppins(
-                        fontSize: 35,
+                        fontSize: 33,
                         fontWeight: FontWeight.w700,
                         color: Colors.orange,
                       ),
@@ -123,49 +106,8 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 70,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: TextFormField(
-                          controller: passwordController,
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Enter a password";
-                            } else
-                              return null;
-                          },
 
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ForgotPassword(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Forgot passoword ?",
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -186,39 +128,29 @@ class _LogInState extends State<LogIn> {
                   onPressed: () async {
                     if (_formkey.currentState!.validate()) {
                       email = emailController.text;
-                      password = passwordController.text;
 
-                      await userLogin();
+                      await forgotPassword();
                       final credential = FirebaseAuth.instance.currentUser;
 
                       final user = UserModel(
                         email: emailController.text,
 
                         photoUrl: "kmlk",
-                        profession: passwordController.text,
+                        profession: "fds",
                         uid: credential?.uid ?? "Uid",
                         name: credential?.displayName ?? "User",
                       );
                       context.read<UserProvider>().saveUser(user);
                     }
                   },
-                  child: isLoading == true
-                      ? Container(
-                          margin: EdgeInsets.only(top: 2, bottom: 2),
-
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 3,
-                          ),
-                        )
-                      : Text(
-                          "Continue",
-                          style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                          ),
-                        ),
+                  child: Text(
+                    "Continue",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 40),
@@ -230,7 +162,7 @@ class _LogInState extends State<LogIn> {
                   );
                 },
                 child: Text(
-                  "Does'nt have an account ?",
+                  "Create an account ?",
                   style: TextStyle(fontSize: 17),
                 ),
               ),
