@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:medalert/models/medicine_model.dart';
 
 class MedicineProvider extends ChangeNotifier {
-  final box = Hive.box<MedicineModel>("medicineBox");
+  final Box<MedicineModel> box = Hive.box<MedicineModel>("medicineBox");
   // final List<MedicineModel> _medicines = [];
   List<MedicineModel> get medicines => box.values.toList();
 
@@ -28,7 +28,7 @@ class MedicineProvider extends ChangeNotifier {
             "reminder": DateTime.now(),
           });
     } on FirebaseException catch (e) {
-      print(e.code);
+      print("!!!!!!!!!!!!!!!!!!!!!!!        Logout Error: $e.code");
     }
     notifyListeners();
   }
