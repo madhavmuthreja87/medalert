@@ -262,6 +262,7 @@ class _SignUpState extends State<SignUp> {
                   height: 40,
                   width: double.infinity,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.network(
                         height: 30,

@@ -56,7 +56,7 @@ class _MedicineCardState extends State<MedicineCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${widget.name}  ${widget.medicineId}",
+                        "${widget.name}",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,

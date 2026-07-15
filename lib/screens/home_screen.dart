@@ -87,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: GoogleFonts.pacifico(fontSize: 20),
                   children: <InlineSpan>[
                     TextSpan(
-                      text: user.name[0].toUpperCase() + user.name.substring(1),
+                      text:
+                          user.name[0].toUpperCase() +
+                          user.name.substring(1).toLowerCase(),
                       style: GoogleFonts.pacifico(fontSize: 18),
                     ),
                   ],
@@ -127,7 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Container(
                       width: double.infinity,
 
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.only(
+                        left: 7,
+                        top: 14,
+                        bottom: 14,
+                        right: 5,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 119, 98, 195),
                         borderRadius: BorderRadius.circular(22.5),
@@ -222,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                   CircleAvatar(
-                                    maxRadius: 25,
+                                    maxRadius: 17,
                                     backgroundColor: Colors.transparent,
                                     child: Image.network(
                                       "https://cdn1.iconfinder.com/data/icons/volunteer-6/48/medicine_pharmaceutical_pharmacy_tablet_medication-512.png",
