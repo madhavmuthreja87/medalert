@@ -28,9 +28,6 @@ class MedicineProvider extends ChangeNotifier {
             "reminder": DateTime.now(),
           });
     } on FirebaseException catch (e) {
-      for (int i = 1; i <= 10; i++) {
-        print("!\n");
-      }
       print(e.code);
     }
     notifyListeners();

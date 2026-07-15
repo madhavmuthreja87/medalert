@@ -12,6 +12,7 @@ import 'package:medalert/providers/medicine_provider.dart';
 class NotificationServices {
   final FlutterLocalNotificationsPlugin notifications =
       FlutterLocalNotificationsPlugin();
+
   Future<void> initialize() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings androidSettings =
@@ -33,6 +34,18 @@ class NotificationServices {
         );
       },
     );
+
+    await notifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.requestNotificationsPermission();
+
+    await notifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.requestExactAlarmsPermission();
   }
 
   Future<void> scheduleNotification({
