@@ -42,6 +42,10 @@ class _SignUpState extends State<SignUp> {
           ),
         ),
       );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const BottomNav()),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -303,10 +307,6 @@ class _SignUpState extends State<SignUp> {
                         uid: credential?.uid ?? "Uid",
                       );
                       context.read<UserProvider>().saveUser(user);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const BottomNav()),
-                      );
                     }
                   },
                   child: isLoading == true
