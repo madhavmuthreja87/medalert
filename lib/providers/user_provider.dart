@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:medalert/models/medicine_model.dart';
+import 'package:medalert/models/reminder_model.dart';
 import 'package:medalert/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -47,8 +50,27 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
-    box.delete("currentUser");
+  Future<void> logout() async {
+    print("Log out started");
+
+    await Hive.box<MedicineModel>("medicineBox").clear();
+    debugPrint("Medicine deleted");
+
+    await Hive.box<ReminderModel>("reminderBox").clear();
+    debugPrint("Reminder deleted");
+
+    await Hive.box("userBox").clear();
+    debugPrint("User details deleted");
+
+    await FirebaseAuth.instance.signOut();
+    debugPrint("Sign out from firebase");
+
+    await GoogleSignIn.instance.signOut();
+    debugPrint("Sign out from Google");
+
+    print(
+      "!!!!!!!!!!!!!!!!!!!!!!!!!           deleted all stuff          !!!!!!!!!!!!!!!!!!!!!",
+    );
     notifyListeners();
   }
 
@@ -56,7 +78,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> pickImageAndSave() async {
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
-
+    print("!!!!!!!!!!!!!!!!!!!!!!!!Image picked");
     final String? path = file?.path;
 
     if (file == null) return;
@@ -66,14 +88,24 @@ class UserProvider extends ChangeNotifier {
     }
     if (path != null) {
       currentUser.photoUrl = path;
-      box.put(currentUser.uid, {
+      box.put("currentUser", {
         "uid": currentUser.uid,
         "name": currentUser.name,
         "email": currentUser.email,
         "profession": currentUser.profession,
         "photoUrl": currentUser.photoUrl,
       });
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      try {
+        await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+          "photoUrl": path,
+        });
+        print("Image saved to firebase firestore!!!!!!!!!!!!!");
+      } on FirebaseAuthException catch (e) {
+        print(e.code);
+      }
     }
+    print("Image saved!!!!!!!!!!!!!!!!!!!!!!!!!!");
     notifyListeners();
   }
 }

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
+import 'package:medalert/screens/sign_up.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -24,6 +25,29 @@ class _ProfileState extends State<Profile> {
     final reminder = context.watch<ReminderProvider>().reminder;
 
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            GestureDetector(
+              onTap: () async {
+                print("Logout pressed !!!!!!!!!!!!!!!!!!!!");
+                await UserProvider().logout();
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => SignUp()),
+                    (route) => false,
+                  );
+                }
+              },
+              child: ListTile(
+                leading: Icon(Icons.logout_rounded),
+                title: Text("Log out"),
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(
           "MedAlert",
@@ -40,6 +64,7 @@ class _ProfileState extends State<Profile> {
               // SizedBox(height: MediaQuery.sizeOf(context).height / 100),
               GestureDetector(
                 onTap: () {
+                  print("Tap to image picker !!!!!!!!!!!!!!!!!!!!!!");
                   context.read<UserProvider>().pickImageAndSave();
                 },
                 child: CircleAvatar(
@@ -50,7 +75,7 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 12),
               Text(
                 //name
-                "${user.name[0].toUpperCase()}",
+                "${user.name[0].toUpperCase() + user.name.substring(1).toLowerCase()}",
                 style: GoogleFonts.poppins(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,

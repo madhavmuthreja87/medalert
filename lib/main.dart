@@ -50,8 +50,7 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       title: 'Med Alert',
-      // home: UserProvider().box.isEmpty ? SignUp() : BottomNav(),
-      home: SignUp(),
+      home: UserProvider().box.isEmpty ? SignUp() : BottomNav(),
     );
   }
 }
