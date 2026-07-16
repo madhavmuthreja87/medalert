@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
+import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/models/user_model.dart';
+import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/forgot_password.dart';
 import 'package:medalert/screens/sign_up.dart';
@@ -21,6 +24,7 @@ class _LogInState extends State<LogIn> {
   TextEditingController passwordController = TextEditingController();
   String email = "", password = "";
   bool isLoading = false;
+
   Future userLogin() async {
     try {
       setState(() {
@@ -29,6 +33,42 @@ class _LogInState extends State<LogIn> {
 
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+      final userDetails = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userCredential.user?.uid)
+          .get();
+
+      final medicineDetails = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userCredential.user?.uid)
+          .collection('medicines')
+          .get();
+
+      //Save to hive after fetching from firestore
+      final data = userDetails.data();
+      if (data != null) {
+        final users = UserModel(
+          name: data['name'],
+          uid: data['uid'],
+          profession: data['profession'],
+          email: data['email'],
+          photoUrl: data['photoUrl'],
+        );
+        context.read<UserProvider>().saveUserLocal(users);
+      }
+
+      for (final doc in medicineDetails.docs) {
+        final data = doc.data();
+        final medicines = MedicineModel(
+          id: data['id'],
+          name: data['name'],
+          desc: data['desc'],
+          quantity: data['quantity'],
+        );
+        context.read<MedicineProvider>().addMedicineToLocal(medicines);
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.lightGreen,
@@ -189,17 +229,6 @@ class _LogInState extends State<LogIn> {
                       password = passwordController.text;
 
                       await userLogin();
-                      final credential = FirebaseAuth.instance.currentUser;
-
-                      final user = UserModel(
-                        email: emailController.text,
-
-                        photoUrl: "kmlk",
-                        profession: passwordController.text,
-                        uid: credential?.uid ?? "Uid",
-                        name: credential?.displayName ?? "User",
-                      );
-                      context.read<UserProvider>().saveUser(user);
                     }
                   },
                   child: isLoading == true

@@ -140,7 +140,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         uid: credential?.uid ?? "Uid",
                         name: credential?.displayName ?? "User",
                       );
-                      context.read<UserProvider>().saveUser(user);
+                      // context.read<UserProvider>().saveUser(user);
                     }
                   },
                   child: Text(

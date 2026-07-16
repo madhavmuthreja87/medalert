@@ -9,9 +9,14 @@ class MedicineProvider extends ChangeNotifier {
   // final List<MedicineModel> _medicines = [];
   List<MedicineModel> get medicines => box.values.toList();
 
-  void addMedicine(MedicineModel medicine) async {
+  void addMedicineLocal(MedicineModel medicine) {
     // _medicines.add(medicine);
     box.put(medicine.id, medicine);
+
+    notifyListeners();
+  }
+
+  Future<void> addMedicineToFirestore(MedicineModel medicine) async {
     final currentUser = FirebaseAuth.instance.currentUser;
     final uid = currentUser?.uid;
 
@@ -30,7 +35,6 @@ class MedicineProvider extends ChangeNotifier {
     } on FirebaseException catch (e) {
       print("!!!!!!!!!!!!!!!!!!!!!!!        Logout Error: $e.code");
     }
-    notifyListeners();
   }
 
   void deleteMedicine(int id) {

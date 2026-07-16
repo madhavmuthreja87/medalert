@@ -448,7 +448,10 @@ class _Step1State extends State<Step2> {
                     // minute: selectedtime!.minute,
                     quantity: int.parse(medicinequantityController.text),
                   );
-                  context.read<MedicineProvider>().addMedicine(medicine);
+                  await context.read<MedicineProvider>().addMedicineToFirestore(
+                    medicine,
+                  );
+                  context.read<MedicineProvider>().addMedicineToLocal(medicine);
                   print("!!!!!!!!!!!!Data added to medicine provider!!!!!!");
 
                   if (isMorning == true) {

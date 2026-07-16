@@ -26,7 +26,7 @@ class UserProvider extends ChangeNotifier {
     );
   }
 
-  void saveUser(UserModel user) async {
+  void saveUserLocal(UserModel user) {
     box.put("currentUser", {
       "uid": user.uid,
       "name": user.name,
@@ -34,6 +34,11 @@ class UserProvider extends ChangeNotifier {
       "profession": user.profession,
       "photoUrl": user.photoUrl,
     });
+
+    notifyListeners();
+  }
+
+  Future<void> saveUserToFirestore(UserModel user) async {
     //Adding data into firebase Firestore
     final uid = FirebaseAuth.instance.currentUser?.uid;
     try {
@@ -47,7 +52,6 @@ class UserProvider extends ChangeNotifier {
     } on FirebaseException catch (e) {
       print(e.code);
     }
-    notifyListeners();
   }
 
   Future<void> logout() async {

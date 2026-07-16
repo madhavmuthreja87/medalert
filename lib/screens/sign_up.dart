@@ -33,6 +33,19 @@ class _SignUpState extends State<SignUp> {
           .createUserWithEmailAndPassword(email: email, password: password);
       print("User created!!!!!!!!!");
 
+      final credential = FirebaseAuth.instance.currentUser;
+
+      final user = UserModel(
+        email: emailController.text,
+        name: nameController.text,
+        photoUrl: "cvs",
+        profession: passwordController.text,
+        uid: credential?.uid ?? "Uid",
+      );
+
+      await context.read<UserProvider>().saveUserToFirestore(user);
+      context.read<UserProvider>().saveUserLocal(user);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.lightGreen,
@@ -107,6 +120,30 @@ class _SignUpState extends State<SignUp> {
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
+
+      final User = FirebaseAuth.instance.currentUser;
+      if (User != null) {
+        setState(() {
+          name = User.displayName!;
+          email = User.email!;
+        });
+      }
+
+      final user = UserModel(
+        email: email,
+        name: name,
+        photoUrl: "klln",
+        profession: "",
+        uid: User?.uid ?? "Uid",
+      );
+      await context.read<UserProvider>().saveUserToFirestore(user);
+      context.read<UserProvider>().saveUserLocal(user);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const BottomNav()),
+      );
+      print(User?.displayName);
 
       return await _auth.signInWithCredential(credential);
     } catch (e) {
@@ -236,27 +273,6 @@ class _SignUpState extends State<SignUp> {
               OutlinedButton(
                 onPressed: () async {
                   await signInWithGoogle();
-                  final User = FirebaseAuth.instance.currentUser;
-                  if (User != null) {
-                    setState(() {
-                      name = User.displayName!;
-                      email = User.email!;
-                    });
-                  }
-
-                  final user = UserModel(
-                    email: email,
-                    name: name,
-                    photoUrl: "klln",
-                    profession: "",
-                    uid: User?.uid ?? "Uid",
-                  );
-                  context.read<UserProvider>().saveUser(user);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const BottomNav()),
-                  );
-                  print(User?.displayName);
                 },
                 child: Container(
                   height: 40,
@@ -298,16 +314,6 @@ class _SignUpState extends State<SignUp> {
                       password = passwordController.text;
 
                       await userRegister();
-                      final credential = FirebaseAuth.instance.currentUser;
-
-                      final user = UserModel(
-                        email: emailController.text,
-                        name: nameController.text,
-                        photoUrl: "cvs",
-                        profession: passwordController.text,
-                        uid: credential?.uid ?? "Uid",
-                      );
-                      context.read<UserProvider>().saveUser(user);
                     }
                   },
                   child: isLoading == true
