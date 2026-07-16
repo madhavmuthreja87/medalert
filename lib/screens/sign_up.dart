@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
 
       await context.read<UserProvider>().saveUserToFirestore(user);
       context.read<UserProvider>().saveUserLocal(user);
-
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.lightGreen,
@@ -61,6 +61,7 @@ class _SignUpState extends State<SignUp> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.redAccent,
@@ -72,6 +73,7 @@ class _SignUpState extends State<SignUp> {
         );
       }
       if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.orangeAccent,
@@ -83,6 +85,7 @@ class _SignUpState extends State<SignUp> {
         );
       }
       if (e.code == 'invalid-email') {
+        ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.redAccent,
@@ -106,7 +109,7 @@ class _SignUpState extends State<SignUp> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
       setState(() {
         isLoading = true;
@@ -121,7 +124,9 @@ class _SignUpState extends State<SignUp> {
         idToken: googleAuth.idToken,
       );
 
-      final User = FirebaseAuth.instance.currentUser;
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      final User = userCredential.user;
       if (User != null) {
         setState(() {
           name = User.displayName!;
@@ -132,7 +137,7 @@ class _SignUpState extends State<SignUp> {
       final user = UserModel(
         email: email,
         name: name,
-        photoUrl: "klln",
+        photoUrl: User?.photoURL ?? "",
         profession: "",
         uid: User?.uid ?? "Uid",
       );
@@ -144,8 +149,6 @@ class _SignUpState extends State<SignUp> {
         MaterialPageRoute(builder: (_) => const BottomNav()),
       );
       print(User?.displayName);
-
-      return await _auth.signInWithCredential(credential);
     } catch (e) {
       print("Google Sign-In Error: $e");
       return null;

@@ -56,6 +56,7 @@ class _LogInState extends State<LogIn> {
           photoUrl: data['photoUrl'],
         );
         context.read<UserProvider>().saveUserLocal(users);
+        print("!!!  User Data fetched from firestore and saved into hive  !!!");
       }
 
       for (final doc in medicineDetails.docs) {
@@ -67,8 +68,11 @@ class _LogInState extends State<LogIn> {
           quantity: data['quantity'],
         );
         context.read<MedicineProvider>().addMedicineToLocal(medicines);
+        print(
+          "!!! Medicine Data fetched from firestore and saved into hive  !!!",
+        );
       }
-
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.lightGreen,
@@ -86,6 +90,7 @@ class _LogInState extends State<LogIn> {
       return await userCredential;
     } on FirebaseAuthException catch (e) {
       print(e.code);
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.redAccent,

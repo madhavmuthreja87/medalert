@@ -21,7 +21,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     try {
       // ignore: unused_local_variable
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: const Color.fromARGB(238, 111, 97, 160),
@@ -33,6 +33,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       );
     } on FirebaseException catch (e) {
       print(e.code);
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.redAccent,

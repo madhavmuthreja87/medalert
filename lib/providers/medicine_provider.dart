@@ -9,7 +9,7 @@ class MedicineProvider extends ChangeNotifier {
   // final List<MedicineModel> _medicines = [];
   List<MedicineModel> get medicines => box.values.toList();
 
-  void addMedicineLocal(MedicineModel medicine) {
+  void addMedicineToLocal(MedicineModel medicine) {
     // _medicines.add(medicine);
     box.put(medicine.id, medicine);
 
