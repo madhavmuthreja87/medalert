@@ -43,4 +43,8 @@ class MedicineProvider extends ChangeNotifier {
     box.delete(id);
     notifyListeners();
   }
+
+  MedicineModel findById(int id) {
+    return medicines.firstWhere((medicine) => medicine.id == id);
+  }
 }

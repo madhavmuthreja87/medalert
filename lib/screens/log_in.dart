@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/models/reminder_model.dart';
+import 'package:medalert/models/time_model.dart';
 import 'package:medalert/models/user_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
 import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/forgot_password.dart';
 import 'package:medalert/screens/sign_up.dart';
+import 'package:medalert/services/notification_services.dart';
 import 'package:provider/provider.dart';
 
 class LogIn extends StatefulWidget {
@@ -47,28 +49,6 @@ class _LogInState extends State<LogIn> {
           .collection('medicines')
           .get();
 
-      for (final medicineDoc in medicineDetails.docs) {
-        final reminderSnapshot = await medicineDoc.reference
-            .collection('reminders')
-            .get();
-
-        for (final reminderDoc in reminderSnapshot.docs) {
-          final data = reminderDoc.data();
-          final reminder = ReminderModel(
-            id: int.parse(reminderDoc.id),
-            medicineId: data["medicineID"],
-            hour: data['hour'],
-            minute: data['minute'],
-            days: List<int>.from(data['days']),
-            isActive: data['isActive'],
-          );
-
-          context.read<ReminderProvider>().addReminderToLocal(reminder);
-        }
-        print(
-          "!!!!!!          Reminder details fetched from firebase and saved to hive    !!!!!!!!!!",
-        );
-      }
       print(
         "!!!!!!!!!    Medicine length : ${medicineDetails.docs.length} !!!!!!!!!!!!",
       );
@@ -97,6 +77,50 @@ class _LogInState extends State<LogIn> {
         context.read<MedicineProvider>().addMedicineToLocal(medicines);
         print(
           "!!! Medicine Data fetched from firestore and saved into hive  !!!",
+        );
+      }
+
+      for (final medicineDoc in medicineDetails.docs) {
+        final reminderSnapshot = await medicineDoc.reference
+            .collection('reminders')
+            .get();
+
+        for (final reminderDoc in reminderSnapshot.docs) {
+          final data = reminderDoc.data();
+          final reminder = ReminderModel(
+            id: int.parse(reminderDoc.id),
+            medicineId: data["medicineID"],
+            hour: data['hour'],
+            minute: data['minute'],
+            days: List<int>.from(data['days']),
+            isActive: data['isActive'],
+          );
+
+          context.read<ReminderProvider>().addReminderToLocal(reminder);
+
+          final medicine = context.read<MedicineProvider>().findById(
+            reminder.medicineId,
+          );
+          final now = DateTime.now();
+
+          for (final r in reminder.days) {
+            final nextDate = TimeModel(
+              weekday: r,
+              hour: reminder.hour,
+              minute: reminder.minute,
+              year: now.year,
+              month: now.month,
+            );
+            await NotificationServices().scheduleNotification(
+              id: reminder.id * 10 + r,
+              title: medicine.name,
+              body: medicine.desc,
+              dateTime: nextDate.nextOccurrence,
+            );
+          }
+        }
+        print(
+          "!!!!!!          Reminder details fetched from firebase and saved to hive and scheduled notifications   !!!!!!!!!!",
         );
       }
       ScaffoldMessenger.of(context).clearSnackBars();

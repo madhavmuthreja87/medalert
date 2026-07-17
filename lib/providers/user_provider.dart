@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:medalert/models/medicine_model.dart';
 import 'package:medalert/models/reminder_model.dart';
 import 'package:medalert/models/user_model.dart';
+import 'package:medalert/services/notification_services.dart';
 
 class UserProvider extends ChangeNotifier {
   final Box box = Hive.box("userBox");
@@ -56,6 +57,9 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> logout() async {
     print("Log out started");
+
+    await NotificationServices().cancelAllNotifications();
+    print("Cancelling all notifications");
 
     await Hive.box<MedicineModel>("medicineBox").clear();
     debugPrint("Medicine deleted");

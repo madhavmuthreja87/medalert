@@ -510,15 +510,7 @@ class _Step1State extends State<Step2> {
                       reminder,
                     );
                     final now = DateTime.now();
-                    // final scheduleTime = DateTime(
-                    //   now.year,
-                    //   now.month,
-                    //   now.day,
-                    //   // medicine.timing.hour,
-                    //   // medicine.timing.minute,
-                    //   reminder.time.hour,
-                    //   reminder.time.minute,
-                    // );
+
                     for (final r in reminder.days) {
                       final nextDate = TimeModel(
                         weekday: r,
@@ -556,15 +548,7 @@ class _Step1State extends State<Step2> {
                       reminder,
                     );
                     final now = DateTime.now();
-                    // final scheduleTime = DateTime(
-                    //   now.year,
-                    //   now.month,
-                    //   now.day,
-                    //   // medicine.timing.hour,
-                    //   // medicine.timing.minute,
-                    //   reminder.time.hour,
-                    //   reminder.time.minute,
-                    // );
+
                     for (final r in reminder.days) {
                       final nextDate = TimeModel(
                         weekday: r,
@@ -583,24 +567,6 @@ class _Step1State extends State<Step2> {
                     print("Data added to NIGHT reminder");
                   }
 
-                  // print("Data added to reminder provider");
-
-                  // final now = DateTime.now();
-                  // final scheduleTime = DateTime(
-                  //   now.year,
-                  //   now.month,
-                  //   now.day,
-                  //   // medicine.timing.hour,
-                  //   // medicine.timing.minute,
-                  //   reminder.time.hour,
-                  //   reminder.time.minute,
-                  // );
-                  // await NotificationServices().scheduleNotification(
-                  //   id: medicine.id,
-                  //   title: medicine.name,
-                  //   body: medicine.desc,
-                  //   dateTime: scheduleTime,
-                  // );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.green,

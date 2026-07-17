@@ -87,6 +87,10 @@ class NotificationServices {
     print("Reminder set!!!!!!!!!!!");
   }
 
+  Future<void> cancelAllNotifications() async {
+    await FlutterLocalNotificationsPlugin().cancelAll();
+  }
+
   //   Future<void> showNotification() async {
   //     const AndroidNotificationDetails androidDetails =
   //         AndroidNotificationDetails(
