@@ -69,7 +69,7 @@ class _LogInState extends State<LogIn> {
       for (final doc in medicineDetails.docs) {
         final data = doc.data();
         final medicines = MedicineModel(
-          id: data["id"],
+          id: data["id"] as int,
           name: data['name'],
           desc: data['desc'],
           quantity: data['quantity'],
