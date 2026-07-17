@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medalert/main.dart';
 import 'package:medalert/models/medicine_model.dart';
+import 'package:medalert/models/reminder_model.dart';
 import 'package:medalert/models/user_model.dart';
 import 'package:medalert/providers/medicine_provider.dart';
+import 'package:medalert/providers/reminder_provider.dart';
 import 'package:medalert/providers/user_provider.dart';
 import 'package:medalert/screens/forgot_password.dart';
 import 'package:medalert/screens/sign_up.dart';
@@ -45,6 +47,28 @@ class _LogInState extends State<LogIn> {
           .collection('medicines')
           .get();
 
+      for (final medicineDoc in medicineDetails.docs) {
+        final reminderSnapshot = await medicineDoc.reference
+            .collection('reminders')
+            .get();
+
+        for (final reminderDoc in reminderSnapshot.docs) {
+          final data = reminderDoc.data();
+          final reminder = ReminderModel(
+            id: int.parse(reminderDoc.id),
+            medicineId: data["medicineID"],
+            hour: data['hour'],
+            minute: data['minute'],
+            days: List<int>.from(data['days']),
+            isActive: data['isActive'],
+          );
+
+          context.read<ReminderProvider>().addReminderToLocal(reminder);
+        }
+        print(
+          "!!!!!!          Reminder details fetched from firebase and saved to hive    !!!!!!!!!!",
+        );
+      }
       print(
         "!!!!!!!!!    Medicine length : ${medicineDetails.docs.length} !!!!!!!!!!!!",
       );
