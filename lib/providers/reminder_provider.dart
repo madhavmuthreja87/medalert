@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:medalert/models/nearest_reminder_model.dart';
@@ -8,9 +11,34 @@ class ReminderProvider extends ChangeNotifier {
   final Box<ReminderModel> box = Hive.box<ReminderModel>('reminderBox');
   List<ReminderModel> get reminder => box.values.toList();
 
-  void addReminder(ReminderModel reminder) {
+  void addReminderToLocal(ReminderModel reminder) {
     box.put(reminder.id, reminder);
     notifyListeners();
+  }
+
+  Future<void> addReminderToFirestore(ReminderModel reminder) async {
+    final userUid = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userUid)
+          .collection('medicines')
+          .doc(reminder.medicineId.toString())
+          .collection('reminders')
+          .doc(reminder.id.toString())
+          .set({
+            "medicineID": reminder.medicineId,
+            "days": reminder.days,
+            "hour": reminder.hour,
+            "minute": reminder.minute,
+            "isActive": reminder.isActive,
+          });
+      print("Reminders saved tp firebase !!!!!!!!!!!!!!!");
+    } on FirebaseAuthException catch (e) {
+      print(
+        "!!!!      Reminder Error while storing into firebase:  ${e.code}   !!!!!!!",
+      );
+    }
   }
 
   void deleteReminderFull(int id) {

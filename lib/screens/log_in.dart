@@ -45,12 +45,15 @@ class _LogInState extends State<LogIn> {
           .collection('medicines')
           .get();
 
+      print(
+        "!!!!!!!!!    Medicine length : ${medicineDetails.docs.length} !!!!!!!!!!!!",
+      );
       //Save to hive after fetching from firestore
       final data = userDetails.data();
       if (data != null) {
         final users = UserModel(
           name: data['name'],
-          uid: data['uid'],
+          uid: FirebaseAuth.instance.currentUser!.uid,
           profession: data['profession'],
           email: data['email'],
           photoUrl: data['photoUrl'],
@@ -62,7 +65,7 @@ class _LogInState extends State<LogIn> {
       for (final doc in medicineDetails.docs) {
         final data = doc.data();
         final medicines = MedicineModel(
-          id: data['id'],
+          id: data["id"],
           name: data['name'],
           desc: data['desc'],
           quantity: data['quantity'],

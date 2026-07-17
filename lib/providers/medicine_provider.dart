@@ -27,6 +27,7 @@ class MedicineProvider extends ChangeNotifier {
           .collection('medicines')
           .doc(medicine.id.toString())
           .set({
+            "id": medicine.id,
             "name": medicine.name,
             "desc": medicine.desc,
             "quantity": medicine.quantity,

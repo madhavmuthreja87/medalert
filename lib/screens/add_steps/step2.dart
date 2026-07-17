@@ -465,17 +465,15 @@ class _Step1State extends State<Step2> {
                       minute: selectedtime!.minute,
                       isActive: true,
                     );
-                    context.read<ReminderProvider>().addReminder(reminder);
+                    await context
+                        .read<ReminderProvider>()
+                        .addReminderToFirestore(reminder);
+                    context.read<ReminderProvider>().addReminderToLocal(
+                      reminder,
+                    );
+
                     final now = DateTime.now();
-                    // final scheduleTime = DateTime(
-                    //   now.year,
-                    //   now.month,
-                    //   now.day,
-                    //   // medicine.timing.hour,
-                    //   // medicine.timing.minute,
-                    //   reminder.time.hour,
-                    //   reminder.time.minute,
-                    // );
+
                     for (final r in reminder.days) {
                       final nextDate = TimeModel(
                         weekday: r,
@@ -505,7 +503,12 @@ class _Step1State extends State<Step2> {
                       minute: selectedtime!.minute,
                       isActive: true,
                     );
-                    context.read<ReminderProvider>().addReminder(reminder);
+                    await context
+                        .read<ReminderProvider>()
+                        .addReminderToFirestore(reminder);
+                    context.read<ReminderProvider>().addReminderToLocal(
+                      reminder,
+                    );
                     final now = DateTime.now();
                     // final scheduleTime = DateTime(
                     //   now.year,
@@ -546,7 +549,12 @@ class _Step1State extends State<Step2> {
                       minute: selectedtime!.minute,
                       isActive: true,
                     );
-                    context.read<ReminderProvider>().addReminder(reminder);
+                    await context
+                        .read<ReminderProvider>()
+                        .addReminderToFirestore(reminder);
+                    context.read<ReminderProvider>().addReminderToLocal(
+                      reminder,
+                    );
                     final now = DateTime.now();
                     // final scheduleTime = DateTime(
                     //   now.year,
