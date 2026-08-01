@@ -19,15 +19,19 @@ class _FullStoreState extends State<FullStore> {
     final medicine = context.watch<MedicineProvider>().medicines;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 119, 98, 195),
         title: Text(
           "MedAlert",
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
           child: medicine.length != 0
               ? ListView.builder(
                   itemCount: medicine.length,

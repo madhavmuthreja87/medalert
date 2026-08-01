@@ -66,15 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 119, 98, 195),
         title: Text(
           "MedAlert",
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -253,9 +257,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 7),
+                  SizedBox(height: 27),
                   Container(
-                    height: MediaQuery.sizeOf(context).height / 2.7,
+                    height: MediaQuery.sizeOf(context).height / 2.3,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(204, 225, 224, 224),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(
+                            255,
+                            20,
+                            19,
+                            19,
+                          ).withOpacity(0.5),
+                          blurRadius: 11,
+                          spreadRadius: 4,
+                          offset: Offset(-4, 4),
+                        ),
+                      ],
+                    ),
                     child: Scrollbar(
                       //  controller: _scrollController,
                       radius: Radius.circular(30),
