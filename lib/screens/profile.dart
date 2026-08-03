@@ -115,8 +115,16 @@ class _ProfileState extends State<Profile> {
 
                 padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(81, 251, 152, 5),
+                  color: const Color.fromARGB(195, 248, 193, 110),
                   borderRadius: BorderRadius.circular(27.5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                      offset: Offset(-4, 4),
+                    ),
+                  ],
                 ),
                 child: DefaultTextStyle(
                   style: TextStyle(fontSize: 14, color: Colors.white70),
