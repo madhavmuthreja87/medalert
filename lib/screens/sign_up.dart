@@ -17,7 +17,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  bool isLoading = false;
+  bool isLoadingSimple = false;
+  bool isLoadingGoogle = false;
   final _formkey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -25,7 +26,7 @@ class _SignUpState extends State<SignUp> {
   String name = "", email = "", password = "";
   Future userRegister() async {
     setState(() {
-      isLoading = true;
+      isLoadingSimple = true;
     });
 
     try {
@@ -101,7 +102,7 @@ class _SignUpState extends State<SignUp> {
       print(e.code);
     } finally {
       setState(() {
-        isLoading = false;
+        isLoadingSimple = false;
       });
     }
   }
@@ -112,7 +113,7 @@ class _SignUpState extends State<SignUp> {
   Future<void> signInWithGoogle() async {
     try {
       setState(() {
-        isLoading = true;
+        isLoadingGoogle = true;
       });
       await _googleSignIn.initialize();
 
@@ -154,7 +155,7 @@ class _SignUpState extends State<SignUp> {
       return null;
     } finally {
       setState(() {
-        isLoading = false;
+        isLoadingGoogle = false;
       });
     }
   }
@@ -292,7 +293,7 @@ class _SignUpState extends State<SignUp> {
                         "https://tse4.mm.bing.net/th/id/OIP.Lx_8Mg6rEyd7aBoGv7QiZgHaHa?r=0&w=1000&h=1000&rs=1&pid=ImgDetMain&o=7&rm=3",
                       ),
                       SizedBox(width: 40),
-                      isLoading == true
+                      isLoadingGoogle == true
                           ? Container(
                               margin: EdgeInsets.only(top: 2, bottom: 2),
 
@@ -323,7 +324,7 @@ class _SignUpState extends State<SignUp> {
                       await userRegister();
                     }
                   },
-                  child: isLoading == true
+                  child: isLoadingSimple == true
                       ? Container(
                           margin: EdgeInsets.only(top: 2, bottom: 2),
 
