@@ -1,4 +1,4 @@
-<img width="1254" height="1254" alt="app_logo" src="https://github.com/user-attachments/assets/ef796846-758f-4d9a-a10b-4ca916da437d" />I designed, developed, and published MedAlert, a Flutter-based medicine reminder app featuring local storage with Hive and online cloud storage with firebase, scheduled notifications, Provider state management, and plans for AI-powered medicine information.
+I designed, developed, and published MedAlert, a Flutter-based medicine reminder app featuring local storage with Hive and online cloud storage with firebase, scheduled notifications, Provider state management, and plans for AI-powered medicine information.
 <img width="1254" height="1254" alt="app_logo" src="https://github.com/user-attachments/assets/8dc9296c-18ce-49e1-a6de-70a093b164a3" />
 
 
